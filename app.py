@@ -3,6 +3,7 @@ import streamlit as st
 import easyocr
 import pandas as pd
 from PIL import Image
+import numpy as np
 import os
 from datetime import datetime
 
@@ -18,7 +19,8 @@ if uploaded_file:
 
     with st.spinner("🔍 Reading and analyzing..."):
         reader = easyocr.Reader(['en', 'ar'])
-        results = reader.readtext(image)
+        # ✅ FIX: Convert PIL image to numpy array before passing to EasyOCR
+        results = reader.readtext(np.array(image))
 
         # Extracted text lines
         extracted_text = [res[1] for res in results]
